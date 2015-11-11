@@ -19,6 +19,7 @@ namespace radixSort
         }
         int longitud;
         int[] array;
+        int columnaDGV2;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -36,6 +37,8 @@ namespace radixSort
                 {
                     dataGridView1.Rows.Add();
                 }
+                
+                
             }
             catch (Exception)
             {
@@ -63,9 +66,11 @@ namespace radixSort
             int contadorAcomodo=0;
             int columna = 0;
             Queue<int>[] cola = new Queue<int>[10];
+            Queue<int>[]colaCopia;
             for (int i = 0; i < 10; i++)
             {
                 cola[i]= new Queue<int>();
+            //    colaCopia[i] = new Queue<int>();
               //inicializar colas
             }
                 for (int i = 1; i <= numBytes; i++)
@@ -90,17 +95,45 @@ namespace radixSort
                         }
                         cola[cont].Enqueue(aux);
                     }
-                    
 
+                    colaCopia = cola.Clone();
+                    //colaCopia = new Queue<int>(typeof (cola));
+                 
+                    if (i == 1)
+                    {
+                        for (int w = 0; w < 10; w++)
+                        {
+                            dataGridView2.Columns.Add("", Convert.ToString(w));
+                        }
+                    }
                         for (int j = 0; j < 10; j++)
+                        {
+                            
+                            for (int k = 0; k < colaCopia.Count(); k++)
+                            {
+                                dataGridView2.Rows.Add();
+                                if (colaCopia[j].Count() != 0)
+                                {
+                                    dataGridView2[j, k].Value = colaCopia[j].Dequeue();
+                                }
+                            }
+                        }
+                            MessageBox.Show("cola completa");
+                            if (i != 3)
+                            {
+                                dataGridView2.Rows.Clear();
+                            }
+                    //acomodar arreglo de colas en arreglo normal
+                        for (int m = 0; m < 10; m++)
                         {
                             while (cola.Count() != 0)
                             {
-                                if (cola[j].Count == 0)
+                                if (cola[m].Count == 0)
                                 {
                                     break;
                                 }
-                                arreglo[contadorAcomodo++] = cola[j].Dequeue();
+
+                                arreglo[contadorAcomodo++] = cola[m].Dequeue();
                             }
 
                         }
